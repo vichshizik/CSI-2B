@@ -3,5 +3,29 @@ You can check out the documentation ![here](./Program_desciption.md).
 
 
 Installing
+Solver for two-body radial Schrodinger equation using spline-interpolation method. The program built with Qt6 library with GUI.
+The CSI method is implemented as standalone program written on C++ language using Qt 6 library []. The program is published at GitHub [] for different operating systems (Windows, MacOS, Linux). As an alternative one can compile the source code located at the same link using Qt 6 environment. Besides Qt 6 library the program uses 
+ExprTk library [] for parsing the potential function, QCustomPlot library [] for graph display and Eigen library [] for matrix computations.
+
+
+![alt text](./interface.png)
+
+The graphical user interface (GUI) is composed of three main parts, compare \ref{fig:main_interface}. On the right side, there are computational parameters, such as boundaries and step size of solving radial Schrodinger equation ("$R_{min}$", "$R_{max}$", "Step"), step size of spline interpolation ("Step of spline"), masses of two particles ("$m_{1}$", "$m_{2}$"), their charge radii ("rms1", "rms2"), the orbital quantum number ("$l$") and the units of the physical system ("Units"). On the bottom, there is the input field of the potential $V\left(r\right)$ \eqref{11}, which graph is displayed on the top of it. All parameter labels beside input boxes have tooltips with description about themselves.
+\begin{figure}[h]
+\begin{subfigure}{.5\textwidth}
+    \centering
+    \includegraphics[width=1\textwidth]{interface.png}
+    \caption{Screen shot of the main window of CSI program.}
+    \label{fig:main_interface}
+\end{subfigure}
+\begin{subfigure}{.5\textwidth}
+    \centering
+    \includegraphics[width=1\textwidth]{interface1.png}
+    \caption{Screen shot of the result window of CSI program.}
+    \label{fig:result_interface}
+\end{subfigure}
+\caption{Screen shots of different windows of the CSI program interface.}
+\end{figure}
+After pressing "Calculate" button on the right-bottom side, the window with calculation results appears \eqref{fig:result_interface}. It includes calculated energies, wave function graphs, charge radii and the save button. Result windows are not restricted by their number which gives the ability to compare results with different parameters.
 
 
