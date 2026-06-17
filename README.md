@@ -3,5 +3,3 @@ The CSI method is implemented as standalone program written on C++ language usin
 ExprTk library [] for parsing the potential function, QCustomPlot library [] for graph display and Eigen library [] for matrix computations.
 You can check out the documentation ![here](./Program_desciption.md).
 Installing
-![alt text](./interface.png)
-
