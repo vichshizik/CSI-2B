@@ -4,3 +4,7 @@ ExprTk library [] for parsing the potential function, QCustomPlot library [] for
 You can check out the documentation ![here](./Program_desciption.md).
 
 Installing
+There are two ways to get the program.
+1. Download pre-compiled version for platform on Release page.
+2. Compile the program using the provided source code.
+Pre-compiled version
