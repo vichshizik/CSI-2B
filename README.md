@@ -5,7 +5,7 @@ You can check out the documentation ![here](./Program_desciption.md).
 
 Installing
 There are two ways to get the program.
-1. Download pre-compiled version for platform on ![release page]([./Program_desciption.md](https://github.com/vichshizik/CSI-2B/releases))..
+1. Download pre-compiled version for platform on [release page]([./Program_desciption.md](https://github.com/vichshizik/CSI-2B/releases))
 2. Compile the program using the provided source code.
 Pre-compiled version
 
