@@ -1,3 +1,13 @@
+Interface overview
+Saving results
+Calculation example
+
+
+
+
+
+
+
 ![alt text](./interface.png)
 The graphical user interface (GUI) is composed of three main parts, compare \ref{fig:main_interface}. On the right side, there are computational parameters, such as boundaries and step size of solving radial Schrodinger equation ("$R_{min}$", "$R_{max}$", "Step"), step size of spline interpolation ("Step of spline"), masses of two particles ("$m_{1}$", "$m_{2}$"), their charge radii ("rms1", "rms2"), the orbital quantum number ("$l$") and the units of the physical system ("Units"). On the bottom, there is the input field of the potential $V\left(r\right)$ \eqref{11}, which graph is displayed on the top of it. All parameter labels beside input boxes have tooltips with description about themselves.
 \begin{figure}[h]
