@@ -11,23 +11,23 @@ Dialog_settings::Dialog_settings(QWidget *parent)
     ui->Potential_Rmin_Label->setToolTip("The lower limit of the displaying potential");
     ui->Potential_Rmax_Label->setToolTip("The upper limit of the displaying potential");
     ui->Potential_Step_Label->setToolTip("The step between points of the displaying potential");
-    ui->EnergyLimit_Label->setToolTip("The energy which determines the upper limit of bound states energy");
+    ui->Switch_EnergyLimit->setToolTip("The energy which determines the upper limit of bound states energy");
     ui->EnergyLimit_Box->setStyleSheet("QLineEdit { border: 1px solid; border-color: rgb(0, 0, 0); border-radius: 2px; background-color: gray; color: black;}");
 }
 
-QLineEdit* Dialog_settings::get_Potential_R_min_Box()
+QLineEdit* Dialog_settings::get_Visual_R_min_Box()
 {
-    return ui->Potential_R_min_Box;
+    return ui->Visual_R_min_Box;
 }
 
-QLineEdit* Dialog_settings::get_Potential_R_max_Box()
+QLineEdit* Dialog_settings::get_Visual_R_max_Box()
 {
-    return ui->Potential_R_max_Box;
+    return ui->Visual_R_max_Box;
 }
 
-QLineEdit* Dialog_settings::get_Potential_Step_Box()
+QLineEdit* Dialog_settings::get_Visual_Step_Box()
 {
-    return ui->Potential_Step_Box;
+    return ui->Visual_Step_Box;
 }
 
 QLineEdit* Dialog_settings::get_Potential_EnergyLimit_Box()
@@ -40,29 +40,65 @@ int Dialog_settings::get_Decimal_point_Box()
     return ui->Decimal_point_Box->value();
 }
 
+bool Dialog_settings::get_Switch_EnergyLimit()
+{
+    return ui->Switch_EnergyLimit->isChecked();
+}
+
+void Dialog_settings::set_Visual_R_min_Box(double Visual_R_min_d)
+{
+    ui->Visual_R_min_Box->setText(QString::number(Visual_R_min_d));
+}
+
+void Dialog_settings::set_Visual_R_max_Box(double Visual_R_max_d)
+{
+    ui->Visual_R_max_Box->setText(QString::number(Visual_R_max_d));
+}
+
+void Dialog_settings::set_Visual_Step_Box(double Visual_Step_d)
+{
+    ui->Visual_Step_Box->setText(QString::number(Visual_Step_d));
+}
+
+void Dialog_settings::set_Decimal_point_Box(int Decimal_points_numbers)
+{
+    ui->Decimal_point_Box->setValue(Decimal_points_numbers);
+}
+
+void Dialog_settings::set_Potential_EnergyLimit_Box(double EnergyLimit_d)
+{
+    ui->EnergyLimit_Box->setText(QString::number(EnergyLimit_d));
+}
+
+void Dialog_settings::set_Switch_EnergyLimit(bool EnergyLimit_Enabled)
+{
+    return ui->Switch_EnergyLimit->setChecked(EnergyLimit_Enabled);
+}
+
+
 Dialog_settings::~Dialog_settings()
 {
     delete ui;
 }
 
-void Dialog_settings::on_Potential_R_min_Box_textChanged(const QString &arg1)
+void Dialog_settings::on_Visual_R_min_Box_textEdited(const QString &arg1)
 {
-    emit transfer_Potential_R_min_Box_textChanged(arg1, ui->Potential_R_min_Box);
+    emit transfer_Visual_R_min_Box_textEdited(arg1, ui->Visual_R_min_Box);
 }
 
-void Dialog_settings::on_Potential_R_max_Box_textChanged(const QString &arg1)
+void Dialog_settings::on_Visual_R_max_Box_textEdited(const QString &arg1)
 {
-    emit transfer_Potential_R_max_Box_textChanged(arg1, ui->Potential_R_max_Box);
+    emit transfer_Visual_R_max_Box_textEdited(arg1, ui->Visual_R_max_Box);
 }
 
-void Dialog_settings::on_Potential_Step_Box_textChanged(const QString &arg1)
+void Dialog_settings::on_Visual_Step_Box_textEdited(const QString &arg1)
 {
-    emit transfer_Potential_Step_Box_textChanged(arg1, ui->Potential_Step_Box);
+    emit transfer_Visual_Step_Box_textEdited(arg1, ui->Visual_Step_Box);
 }
 
-void Dialog_settings::on_EnergyLimit_Box_textChanged(const QString &arg1)
+void Dialog_settings::on_EnergyLimit_Box_textEdited(const QString &arg1)
 {
-    emit transfer_EnergyLimit_Box_textChanged(arg1, ui->EnergyLimit_Box);
+    emit transfer_EnergyLimit_Box_textEdited(arg1, ui->EnergyLimit_Box);
 }
 
 void Dialog_settings::on_Decimal_point_Box_valueChanged(int arg1)

@@ -1,7 +1,7 @@
 #include "dialog_result.h"
 #include "ui_dialog_result.h"
 
-Dialog_result::Dialog_result(SplineTwoBody_Eigen &Result, int Decimal_points_numbers, int Sci_times_notation, int Units_selected, QWidget *parent)
+Dialog_result::Dialog_result(SplineTwoBody_Eigen &Result, int Decimal_points_numbers, int Sci_times_notation, int Units_selected, QString parameters, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::Dialog_result)
 {
@@ -11,8 +11,11 @@ Dialog_result::Dialog_result(SplineTwoBody_Eigen &Result, int Decimal_points_num
     Result.Export_Radius(Radius, Radius_Wave);
     this->Decimal_points_numbers = Decimal_points_numbers;
     this->Sci_times_notation = Sci_times_notation;
+    this->Wave_Radial = false;
+    ui->Parameters_Box->setText(parameters);
 
-    SaveFile_Window = new Dialog_SaveFile(Functions_x, Wave_functions, Radial_functions, Energies, Size_splined, Size_states, this);
+    SaveFile_Window = new Dialog_SaveFile(Functions_x, Wave_functions, Radial_functions, Energies, Size_splined, Size_states, parameters, this);
+
 
     connect(ui->PlotWavesAndRadial, SIGNAL(mouseMove(QMouseEvent*)), SLOT(MouseMovePlotWaveAndRadial(QMouseEvent*)));
     connect(ui->PlotWavesAndRadial, SIGNAL(mouseWheel(QWheelEvent*)),  SLOT(MouseWheelPlotWaveAndRadial(QWheelEvent*)));
@@ -46,7 +49,7 @@ Dialog_result::Dialog_result(SplineTwoBody_Eigen &Result, int Decimal_points_num
     ui->PlotWavesAndRadial->graph(0)->setPen(QPen(Qt::blue));
     ui->PlotWavesAndRadial->graph(1)->setLineStyle(QCPGraph::lsNone);
     ui->PlotWavesAndRadial->graph(1)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle));
-    ui->PlotWavesAndRadial->graph(1)->setPen(QPen(Qt::red, 1.0, Qt::SolidLine));
+    ui->PlotWavesAndRadial->graph(1)->setPen(QPen(Qt::red, 1.5, Qt::SolidLine));
     ui->PlotWavesAndRadial->graph(2)->setLineStyle(QCPGraph::LineStyle(QCPCurve::lsLine));
     ui->PlotWavesAndRadial->graph(2)->setPen(QPen(Qt::blue, 0.5, Qt::DashLine));
     ui->PlotWavesAndRadial->graph(3)->setLineStyle(QCPGraph::LineStyle(QCPCurve::lsLine));
@@ -65,21 +68,21 @@ Dialog_result::Dialog_result(SplineTwoBody_Eigen &Result, int Decimal_points_num
         ui->PlotWavesAndRadial->xAxis->setLabel("r, fm");
         for(int i = 0; i < Energies.size(); i++)
         {
-            ui->Energy_Select->addItem(QString::number(Energies[i]) + " MeV");
+            ui->Energy_Select->addItem("E = "+QString::number(Energies[i]) + " MeV");
         }
         break;
     case(1):
         ui->PlotWavesAndRadial->xAxis->setLabel("r");
         for(int i = 0; i < Energies.size(); i++)
         {
-            ui->Energy_Select->addItem(QString::number(Energies[i]));
+            ui->Energy_Select->addItem("E = "+QString::number(Energies[i]));
         }
         break;
     default:
         ui->PlotWavesAndRadial->xAxis->setLabel("r");
         for(int i = 0; i < Energies.size(); i++)
         {
-            ui->Energy_Select->addItem(QString::number(Energies[i]));
+            ui->Energy_Select->addItem("E = "+QString::number(Energies[i]));
         }
         break;
     }
@@ -91,7 +94,7 @@ void Dialog_result::Replot_Graph()
 {
     ui->PlotWavesAndRadial->graph(0)->data()->clear();
     ui->PlotWavesAndRadial->graph(1)->data()->clear();
-    if(ui->Switch_Wave_Radial->isChecked())
+    if(Wave_Radial == false)
     {
         ui->PlotWavesAndRadial->graph(0)->setData(Functions_x, Wave_functions[ui->Energy_Select->currentIndex()]);
         if(ui->Switch_MeshPoints->isChecked())
@@ -148,11 +151,7 @@ void Dialog_result::DrawCrossAndCoord(QPoint Cursor)
     ui->PlotWavesAndRadial->graph(3)->addData(xData, yData);
     double coord_x = ui->PlotWavesAndRadial->xAxis->pixelToCoord(Cursor.x());
     double coord_y = ui->PlotWavesAndRadial->yAxis->pixelToCoord(Cursor.y());
-    std::string coord_x_formatted;
-    std::string coord_y_formatted;
-    GetFormattedNumber(coord_x, coord_x_formatted);
-    GetFormattedNumber(coord_y, coord_y_formatted);
-    CoordText->setText(QString("(%1, %2)").arg(coord_x_formatted).arg(coord_y_formatted));
+    CoordText->setText(QString("(%1, %2)").arg(GetFormattedNumber(coord_x)).arg(GetFormattedNumber(coord_y)));
     CoordText->position->setCoords(QPointF( ui->PlotWavesAndRadial->xAxis->pixelToCoord(Cursor.x() + 50),  ui->PlotWavesAndRadial->yAxis->pixelToCoord(Cursor.y()-10)));
     CoordText->setFont(QFont(font().family(), 10));
     ui->PlotWavesAndRadial->replot();
@@ -168,14 +167,16 @@ void Dialog_result::MouseWheelPlotWaveAndRadial(QWheelEvent *event)
     DrawCrossAndCoord(event->position().toPoint());
 }
 
-void Dialog_result::on_Switch_Wave_Radial_stateChanged(int arg1)
+void Dialog_result::on_RadialWaveButton_clicked()
 {
+    Wave_Radial = !Wave_Radial;
     Replot_Graph();
 }
 
 void Dialog_result::on_Energy_Select_currentIndexChanged(int index)
 {
     Replot_Graph();
+    ui->Rms_Box->setText(QString("%1").arg(GetFormattedNumber(Radius[index])));
 }
 
 void Dialog_result::on_FlipFunctionsButton_clicked()
@@ -201,15 +202,15 @@ void Dialog_result::on_SaveFileButton_clicked()
     }
 }
 
-void Dialog_result::GetFormattedNumber(double Value, std::string &FormattedNumber)
+std::string Dialog_result::GetFormattedNumber(double Value)
 {
     if(abs(Value) > Sci_times_notation)
     {
-        FormattedNumber = std::string(std::format("{:.{}E}", Value, Decimal_points_numbers));
+        return std::string(std::format("{:.{}E}", Value, Decimal_points_numbers));
     }
     else
     {
-        FormattedNumber = std::string(std::format("{:.{}f}", Value, Decimal_points_numbers));
+        return std::string(std::format("{:.{}f}", Value, Decimal_points_numbers));
     }
 }
 
@@ -217,4 +218,3 @@ void Dialog_result::on_Switch_MeshPoints_stateChanged(int arg1)
 {
     Replot_Graph();
 }
-

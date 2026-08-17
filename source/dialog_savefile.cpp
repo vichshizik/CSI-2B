@@ -5,13 +5,14 @@
 #include <QMessageBox>
 
 
-Dialog_SaveFile::Dialog_SaveFile(QVector<double> &Exported_x_axis , QVector<QVector<double>> &Exported_Wave_functions, QVector<QVector<double>> &Exported_Radial_functions, QVector<double> &Exported_Energies, int &Exported_size_splined, int &Exported_size_states, QWidget *parent)
+Dialog_SaveFile::Dialog_SaveFile(QVector<double> &Exported_x_axis , QVector<QVector<double>> &Exported_Wave_functions, QVector<QVector<double>> &Exported_Radial_functions, QVector<double> &Exported_Energies, int &Exported_size_splined, int &Exported_size_states, QString parameters, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::Dialog_SaveFile)
 {
     ui->setupUi(this);
     FileSavingDirectory = qApp->applicationDirPath();
     UpdateNameAndFolderOfFiles();
+    Problem_parameters = parameters;
 
     this->Wave_functions = Exported_Wave_functions;
     this->Radial_functions = Exported_Radial_functions;
@@ -48,11 +49,11 @@ Dialog_SaveFile::~Dialog_SaveFile()
 
 void Dialog_SaveFile::UpdateNameAndFolderOfFiles()
 {
-    ui->FileNameShowLabel->setText("The selected files will be saved in\n" + FileSavingDirectory + "\n" +  "as \"" + "_Wave_E0.txt" + "\"");
-    ui->FileNameShowLabel->setAlignment(Qt::AlignCenter);
+    //ui->FileNameShowLabel->setText("The selected files will be saved in\n" + FileSavingDirectory + "\n" +  "as \"" + "_Wave_E0.txt" + "\"");
+    //ui->FileNameShowLabel->setAlignment(Qt::AlignCenter);
 }
 
-void Dialog_SaveFile::on_PrefixNameEdit_textChanged(const QString &arg1)
+void Dialog_SaveFile::on_PrefixNameEdit_textEdited(const QString &arg1)
 {
     UpdateNameAndFolderOfFiles();
 }
@@ -67,6 +68,7 @@ void Dialog_SaveFile::SaveFunctionsToFile()
             if(ui->ListEnergies_Widget->item(i)->checkState())
             {
                 std::ofstream SaveFileWave(FileSavingDirectory.toStdString() + ui->PrefixNameEdit->text().toStdString() + "_Wave_" + "E" + std::to_string(i) + ".txt");
+                SaveFileWave << Problem_parameters.toStdString() << std::endl;
                 SaveFileWave << "E = " << Energies[i] << std::endl;
                 SaveFileWave << "r " << "Psi(r)" << std::endl;
                 for(int j = 0; j < Size_splined; j++)
@@ -75,6 +77,7 @@ void Dialog_SaveFile::SaveFunctionsToFile()
                 }
                 SaveFileWave.close();
                 std::ofstream SaveFileRadial(FileSavingDirectory.toStdString() + ui->PrefixNameEdit->text().toStdString() + "_Radial_" + "E" + std::to_string(i) + ".txt");
+                SaveFileRadial << Problem_parameters.toStdString() << std::endl;
                 SaveFileRadial << "E = " << Energies[i] << std::endl;
                 SaveFileRadial << "r " << "Psi(r)/r" << std::endl;
                 for(int j = 0; j < Size_splined; j++)
@@ -91,6 +94,7 @@ void Dialog_SaveFile::SaveFunctionsToFile()
             if(ui->ListEnergies_Widget->item(i)->checkState())
             {
                 std::ofstream SaveFileWave(FileSavingDirectory.toStdString() + ui->PrefixNameEdit->text().toStdString() + "_Wave_" + "E" + std::to_string(i) + ".txt");
+                SaveFileWave << Problem_parameters.toStdString() << std::endl;
                 SaveFileWave << "E = " << Energies[i] << std::endl;
                 SaveFileWave << "r " << "Psi(r)" << std::endl;
                 for(int j = 0; j < Size_splined; j++)
@@ -107,6 +111,7 @@ void Dialog_SaveFile::SaveFunctionsToFile()
             if(ui->ListEnergies_Widget->item(i)->checkState())
             {
                 std::ofstream SaveFileRadial(FileSavingDirectory.toStdString() + ui->PrefixNameEdit->text().toStdString() + "_Radial_" + "E" + std::to_string(i) + ".txt");
+                SaveFileRadial << Problem_parameters.toStdString() << std::endl;
                 SaveFileRadial << "E = " << Energies[i] << std::endl;
                 SaveFileRadial << "r " << "Psi(r)/r" << std::endl;
                 for(int j = 0; j < Size_splined; j++)

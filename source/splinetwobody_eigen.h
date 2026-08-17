@@ -49,8 +49,8 @@ public:
 
     void Initialize_Param(QVector<double> Mesh_input, double h_spline_step, int Units_selected, double m1, double m2, double r1, double r2, std::string expression)
     {
-        this->mass1 = m1;
-        this->mass2 = m2;
+        // ui->UnitsType_Select->addItem("GeV|fm");
+        // ui->UnitsType_Select->addItem("Atomic units");
         this->radius1 = r1;
         this->radius2 = r2;
         this->mass = (m1*m2)/(m1+m2);
@@ -76,6 +76,8 @@ public:
         {
         case(0):
             k_units = 0.04784506682;
+            this->mass1 = m1*1.07354410083;
+            this->mass2 = m2*1.07354410083;
             break;
         case(1):
             k_units = 2;
@@ -94,14 +96,12 @@ public:
     bool Calculate_on_CPU(int l, QProgressBar *progress)
     {
         progress->setValue(1);
-        progress->setFormat("Calc Matrices");
         Initialize_Matrix_B_AHA(l);
         if(MemAllocFailed)
         {
             return false;
         }
         progress->setValue(2);
-        progress->setFormat("Calc Eigen Values");
         CalculateEigenValuesAndVectors();
         if(MemAllocFailed)
         {
@@ -109,7 +109,6 @@ public:
         }
         if(BoundStatesExist){
             progress->setValue(3);
-            progress->setFormat("Calc Wave Functions");
             Calculate_Wave_Functions();
             if(MemAllocFailed)
             {
@@ -118,11 +117,9 @@ public:
         }
         else
         {
-            progress->setFormat("Error");
             progress->setValue(4);
             return false;
         }
-        progress->setFormat("Done");
         progress->setValue(4);
         return true;
     }
@@ -131,14 +128,12 @@ public:
     {
         this->EnergyLimit = EnergyLimit;
         progress->setValue(1);
-        progress->setFormat("Calc Matrices");
         Initialize_Matrix_B_AHA(l);
         if(MemAllocFailed)
         {
             return false;
         }
         progress->setValue(2);
-        progress->setFormat("Calc Eigen Values");
         CalculateEigenValuesAndVectors();
         if(MemAllocFailed)
         {
@@ -146,7 +141,6 @@ public:
         }
         if(BoundStatesExist){
             progress->setValue(3);
-            progress->setFormat("Calc Wave Functions");
             Calculate_Wave_Functions();
             if(MemAllocFailed)
             {
@@ -155,11 +149,9 @@ public:
         }
         else
         {
-            progress->setFormat("Error");
             progress->setValue(4);
             return false;
         }
-        progress->setFormat("Done");
         progress->setValue(4);
         return true;
     }
@@ -256,7 +248,7 @@ public:
         for(int i =0; i < bound_states_size; i++)
         {
             Exported_Radius_Wave.append(Radius[i]);
-            Exported_Radius.append(sqrt(Radius[i]*Radius[i] + radius1*radius1 + radius2*radius2));
+            Exported_Radius.append(Radius[i] + radius1 + radius2);
         }
     }
 

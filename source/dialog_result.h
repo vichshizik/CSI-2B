@@ -16,12 +16,10 @@ class Dialog_result : public QDialog
     Q_OBJECT
 
 public:
-    explicit Dialog_result(SplineTwoBody_Eigen &Result, int Decimal_points_numbers, int Sci_times_notation, int Units_selected, QWidget *parent = nullptr);
+    explicit Dialog_result(SplineTwoBody_Eigen &Result, int Decimal_points_numbers, int Sci_times_notation, int Units_selected, QString parameters, QWidget *parent = nullptr);
     ~Dialog_result();
 
 private slots:
-    void on_Switch_Wave_Radial_stateChanged(int arg1);
-
     void on_Energy_Select_currentIndexChanged(int index);
 
     void MouseMovePlotWaveAndRadial(QMouseEvent *event);
@@ -33,6 +31,8 @@ private slots:
     void on_SaveFileButton_clicked();
 
     void on_Switch_MeshPoints_stateChanged(int arg1);
+
+    void on_RadialWaveButton_clicked();
 
 private:
     Ui::Dialog_result *ui;
@@ -48,6 +48,7 @@ private:
     QVector<double> Radius_Wave;
     QVector<double> Functions_x;
     QVector<double> Mesh_x;
+    bool Wave_Radial;
 
     int Size_splined;
     int Size_states;
@@ -59,7 +60,7 @@ private:
     void Replot_Graph();
 
     void DrawCrossAndCoord(QPoint Cursor);
-    void GetFormattedNumber(double Value, std::string &FormattedNumber);
+    std::string GetFormattedNumber(double Value);
 
 };
 

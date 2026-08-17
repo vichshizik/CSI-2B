@@ -152,6 +152,7 @@ void SplineTwoBody_Eigen::MethodSplainNatural(int p)
     {
         X_norm[i+1] = Mesh[i+1];
         Y_norm[i+1] = Matrix_Xi(i, p) * Matrix_Xi(i, p);
+        qDebug() << Y_norm[i+1];
     }
     X_norm[matrix_size+1] = Mesh[matrix_size+1];
     Y_norm[matrix_size+1] = 0;
@@ -163,11 +164,11 @@ void SplineTwoBody_Eigen::MethodSplainNatural(int p)
     for (int i = 0; i < matrix_size; i++)
     {
         X_norm[i+1] = Mesh[i+1];
-        Y_norm[i+1] = Matrix_Xi(i, p) * Matrix_Xi(i, p)*Mesh[i+1]*Mesh[i+1]*(mass2/(mass1+mass2))*(mass2/(mass1+mass2));
+        Y_norm[i+1] = Matrix_Xi(i, p) * Matrix_Xi(i, p)*Mesh[i+1]*Mesh[i+1];
     }
     X_norm[matrix_size+1] = Mesh[matrix_size+1];
     Y_norm[matrix_size+1] = 0;
-    Radius[p] = sqrt(MethodSplainNatural_Radius(X_norm, Y_norm, matrix_size+2)/Norm);
+    Radius[p] = (mass2/(mass1+mass2))*(mass2/(mass1+mass2))*MethodSplainNatural_Radius(X_norm, Y_norm, matrix_size+2)/Norm/Norm;
     /////////////////
     int t = 1;
     do{

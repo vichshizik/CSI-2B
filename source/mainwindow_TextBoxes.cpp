@@ -1,48 +1,48 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 
-void MainWindow::on_Potential_Equation_Box_textChanged(const QString &arg1)
+void MainWindow::on_Potential_Equation_Box_textEdited(const QString &arg1)
 {
     Potential_Equation_Parse();
     DrawMesh();
 }
 
-void MainWindow::on_Calc_settings_R_min_Box_textChanged(const QString &arg1)
+void MainWindow::on_Calc_settings_R_min_Box_textEdited(const QString &arg1)
 {
-    Calc_Settings_textChanged();
+    Calc_Settings_textEdited();
 }
 
-void MainWindow::on_Calc_settings_R_max_Box_textChanged(const QString &arg1)
+void MainWindow::on_Calc_settings_R_max_Box_textEdited(const QString &arg1)
 {
-    Calc_Settings_textChanged();
+    Calc_Settings_textEdited();
 }
 
-void MainWindow::on_Calc_settings_Step_Box_textChanged(const QString &arg1)
+void MainWindow::on_Calc_settings_Step_Box_textEdited(const QString &arg1)
 {
-    Calc_Settings_textChanged();
+    Calc_Settings_textEdited();
 }
 
-void MainWindow::on_Calc_settings_SplineStep_Box_textChanged(const QString &arg1)
+void MainWindow::on_Calc_settings_SplineStep_Box_textEdited(const QString &arg1)
 {
-    Calc_Settings_textChanged();
+    Calc_Settings_textEdited();
 }
 
-void MainWindow::on_Calc_settings_l_Box_textChanged(const QString &arg1)
+void MainWindow::on_Calc_settings_l_Box_textEdited(const QString &arg1)
 {
-    Calc_Settings_textChanged();
+    Calc_Settings_textEdited();
 }
 
-void MainWindow::on_Calc_settings_Mass1_Box_textChanged(const QString &arg1)
+void MainWindow::on_Calc_settings_Mass1_Box_textEdited(const QString &arg1)
 {
-    Calc_Settings_textChanged();
+    Calc_Settings_textEdited();
 }
 
-void MainWindow::on_Calc_settings_Mass2_Box_textChanged(const QString &arg1)
+void MainWindow::on_Calc_settings_Mass2_Box_textEdited(const QString &arg1)
 {
-    Calc_Settings_textChanged();
+    Calc_Settings_textEdited();
 }
 
-void MainWindow::Calc_Settings_textChanged()
+void MainWindow::Calc_Settings_textEdited()
 {
     Check_container(Calc_settings_success[0], ui->Calc_settings_R_min_Box, Calc_settings_R_min_d);
     Check_container(Calc_settings_success[1], ui->Calc_settings_R_max_Box, Calc_settings_R_max_d);
@@ -51,9 +51,11 @@ void MainWindow::Calc_Settings_textChanged()
     Check_container(Calc_settings_success[4], ui->Calc_settings_l_Box, Calc_settings_l_d);
     Check_container(Calc_settings_success[5], ui->Calc_settings_Mass1_Box, Calc_settings_Mass1_d);
     Check_container(Calc_settings_success[6], ui->Calc_settings_Mass2_Box, Calc_settings_Mass2_d);
-    Check_container(Calc_settings_success[7], ui->Calc_settings_Radius1_Box, Calc_settings_Radius1_d);
-    Check_container(Calc_settings_success[8], ui->Calc_settings_Radius2_Box, Calc_settings_Radius2_d);
-
+    if(Charge_Enabled)
+    {
+        Check_container(Calc_settings_success[7], ui->Calc_settings_Radius1_Box, Calc_settings_Radius1_d);
+        Check_container(Calc_settings_success[8], ui->Calc_settings_Radius2_Box, Calc_settings_Radius2_d);
+    }
     if(Calc_settings_success[0] && (Calc_settings_R_min_d < 0))
     {
         ui->Calc_settings_R_min_Box->setStyleSheet("QLineEdit { border: 1px solid; border-color: rgb(0, 0, 0); border-radius: 2px; background-color: orange; color: black;}");
@@ -65,8 +67,6 @@ void MainWindow::Calc_Settings_textChanged()
         ui->Calc_settings_R_min_Box->setStyleSheet("QLineEdit { border: 1px solid; border-color: rgb(0, 0, 0); border-radius: 2px; background-color: white; color: black;}");
         ui->Calc_settings_R_min_Box->setToolTip("");
     }
-
-
     if(Calc_settings_success[1] && (Calc_settings_R_max_d < 1e-15))
     {
         ui->Calc_settings_R_max_Box->setStyleSheet("QLineEdit { border: 1px solid; border-color: rgb(0, 0, 0); border-radius: 2px; background-color: orange; color: black;}");
@@ -87,8 +87,6 @@ void MainWindow::Calc_Settings_textChanged()
         ui->Calc_settings_R_min_Box->setToolTip("The entered value cannot be higher than Rmax");
         Calc_settings_success[0] = false;
     }
-
-
     if(Calc_settings_success[2] && (Calc_settings_h_step_d < 1e-15))
     {
         ui->Calc_settings_Step_Box->setStyleSheet("QLineEdit { border: 1px solid; border-color: rgb(0, 0, 0); border-radius: 2px; background-color: orange; color: black;}");
@@ -100,8 +98,6 @@ void MainWindow::Calc_Settings_textChanged()
         ui->Calc_settings_Step_Box->setStyleSheet("QLineEdit { border: 1px solid; border-color: rgb(0, 0, 0); border-radius: 2px; background-color: white; color: black;}");
         ui->Calc_settings_Step_Box->setToolTip("");
     }
-
-
     if(Calc_settings_success[3] && (Calc_settings_h_spline_step_d < 1e-15))
     {
         ui->Calc_settings_SplineStep_Box->setStyleSheet("QLineEdit { border: 1px solid; border-color: rgb(0, 0, 0); border-radius: 2px; background-color: orange; color: black;}");
@@ -122,8 +118,6 @@ void MainWindow::Calc_Settings_textChanged()
         ui->Calc_settings_SplineStep_Box->setToolTip("The entered value cannot be lower than mesh step");
         Calc_settings_success[3] = false;
     }
-
-
     if(Calc_settings_success[0] && Calc_settings_success[1] && Calc_settings_success[2])
     {
         CountMeshPoints = (Calc_settings_R_max_d - Calc_settings_R_min_d)/Calc_settings_h_step_d + 1;
@@ -140,8 +134,6 @@ void MainWindow::Calc_Settings_textChanged()
             Calc_settings_success[2] = false;
         }
     }
-
-
     if(Calc_settings_success[4] && Calc_settings_l_d < 0)
     {
         ui->Calc_settings_l_Box->setStyleSheet("QLineEdit { border: 1px solid; border-color: rgb(0, 0, 0); border-radius: 2px; background-color: orange; color: black;}");
@@ -173,72 +165,70 @@ void MainWindow::Calc_Settings_textChanged()
         ui->Calc_settings_Radius2_Box->setToolTip("The entered value cannot be lower than 0");
         Calc_settings_success[8] = false;
     }
-
-
     Set_button_activity(ui->Calculate_Button, Calc_settings_success);
     CalculateRAMNeeded();
     DrawMesh();
 }
 
-void MainWindow::Potential_Settings_textChanged()
+void MainWindow::Visual_Settings_textEdited()
 {
-    Check_container(Potential_settings_success[0], Settings_Window->get_Potential_R_max_Box(), Potential_R_max_d);
-    Check_container(Potential_settings_success[1], Settings_Window->get_Potential_R_min_Box(), Potential_R_min_d);
-    Check_container(Potential_settings_success[2], Settings_Window->get_Potential_Step_Box(), Potential_Step_d);
+    Check_container(Visual_settings_success[0], Settings_Window->get_Visual_R_max_Box(), Visual_R_max_d);
+    Check_container(Visual_settings_success[1], Settings_Window->get_Visual_R_min_Box(), Visual_R_min_d);
+    Check_container(Visual_settings_success[2], Settings_Window->get_Visual_Step_Box(), Visual_Step_d);
 
-    if(Potential_settings_success[0] && Potential_R_max_d < 0)
+    if(Visual_settings_success[0] && Visual_R_max_d < 0)
     {
-        Settings_Window->get_Potential_R_max_Box()->setStyleSheet("QLineEdit { border: 1px solid; border-color: rgb(0, 0, 0); border-radius: 2px; background-color: orange; color: black;}");
-        Settings_Window->get_Potential_R_max_Box()->setToolTip("The entered value cannot be lower than 0");
-        Potential_settings_success[0] = false;
+        Settings_Window->get_Visual_R_max_Box()->setStyleSheet("QLineEdit { border: 1px solid; border-color: rgb(0, 0, 0); border-radius: 2px; background-color: orange; color: black;}");
+        Settings_Window->get_Visual_R_max_Box()->setToolTip("The entered value cannot be lower than 0");
+        Visual_settings_success[0] = false;
     }
 
-    if(Potential_settings_success[1] && Potential_R_min_d < 0)
+    if(Visual_settings_success[1] && Visual_R_min_d < 0)
     {
-        Settings_Window->get_Potential_R_min_Box()->setStyleSheet("QLineEdit { border: 1px solid; border-color: rgb(0, 0, 0); border-radius: 2px; background-color: orange; color: black;}");
-        Settings_Window->get_Potential_R_min_Box()->setToolTip("The entered value cannot be lower than 0");
-        Potential_settings_success[1] = false;
+        Settings_Window->get_Visual_R_min_Box()->setStyleSheet("QLineEdit { border: 1px solid; border-color: rgb(0, 0, 0); border-radius: 2px; background-color: orange; color: black;}");
+        Settings_Window->get_Visual_R_min_Box()->setToolTip("The entered value cannot be lower than 0");
+        Visual_settings_success[1] = false;
     }
 
-    if(Potential_settings_success[0] && Potential_settings_success[1] && (Potential_R_max_d < Potential_R_min_d))
+    if(Visual_settings_success[0] && Visual_settings_success[1] && (Visual_R_max_d < Visual_R_min_d))
     {
-        Settings_Window->get_Potential_R_min_Box()->setStyleSheet("QLineEdit { border: 1px solid; border-color: rgb(0, 0, 0); border-radius: 2px; background-color: orange; color: black;}");
-        Settings_Window->get_Potential_R_min_Box()->setToolTip("The entered value cannot be higher than Rmax");
-        Settings_Window->get_Potential_R_max_Box()->setStyleSheet("QLineEdit { border: 1px solid; border-color: rgb(0, 0, 0); border-radius: 2px; background-color: orange; color: black;}");
-        Settings_Window->get_Potential_R_max_Box()->setToolTip("The entered value cannot be lower than Rmin");
-        Potential_settings_success[0] = false;
-        Potential_settings_success[1] = false;
+        Settings_Window->get_Visual_R_min_Box()->setStyleSheet("QLineEdit { border: 1px solid; border-color: rgb(0, 0, 0); border-radius: 2px; background-color: orange; color: black;}");
+        Settings_Window->get_Visual_R_min_Box()->setToolTip("The entered value cannot be higher than Rmax");
+        Settings_Window->get_Visual_R_max_Box()->setStyleSheet("QLineEdit { border: 1px solid; border-color: rgb(0, 0, 0); border-radius: 2px; background-color: orange; color: black;}");
+        Settings_Window->get_Visual_R_max_Box()->setToolTip("The entered value cannot be lower than Rmin");
+        Visual_settings_success[0] = false;
+        Visual_settings_success[1] = false;
     }
 
 
-    if(Potential_settings_success[2] && Potential_Step_d < 1e-15)
+    if(Visual_settings_success[2] && Visual_Step_d < 1e-15)
     {
-        Settings_Window->get_Potential_Step_Box()->setStyleSheet("QLineEdit { border: 1px solid; border-color: rgb(0, 0, 0); border-radius: 2px; background-color: orange; color: black;}");
-        Settings_Window->get_Potential_Step_Box()->setToolTip("The entered value cannot be equal or lower than 0");
-        Potential_settings_success[2] = false;
+        Settings_Window->get_Visual_Step_Box()->setStyleSheet("QLineEdit { border: 1px solid; border-color: rgb(0, 0, 0); border-radius: 2px; background-color: orange; color: black;}");
+        Settings_Window->get_Visual_Step_Box()->setToolTip("The entered value cannot be equal or lower than 0");
+        Visual_settings_success[2] = false;
     }
 
     Potential_Equation_Parse();
 }
 
-void MainWindow::receive_Potential_R_max_Box_textChanged(QString arg1)
+void MainWindow::receive_Visual_R_max_Box_textEdited(QString arg1)
 {
-    Potential_Settings_textChanged();
+    Visual_Settings_textEdited();
 }
 
-void MainWindow::receive_Potential_R_min_Box_textChanged(QString arg1)
+void MainWindow::receive_Visual_R_min_Box_textEdited(QString arg1)
 {
-    Potential_Settings_textChanged();
+    Visual_Settings_textEdited();
 }
 
-void MainWindow::receive_Potential_Step_Box_textChanged(QString arg1)
+void MainWindow::receive_Visual_Step_Box_textEdited(QString arg1)
 {
-    Potential_Settings_textChanged();
+    Visual_Settings_textEdited();
 }
 
-void MainWindow::receive_EnergyLimit_Box_textChanged(QString arg1)
+void MainWindow::receive_EnergyLimit_Box_textEdited(QString arg1)
 {
-    Check_container(Potential_settings_success[3], Settings_Window->get_Potential_EnergyLimit_Box(), EnergyLimit_d);
+    Check_container(Visual_settings_success[3], Settings_Window->get_Potential_EnergyLimit_Box(), EnergyLimit_d);
 }
 
 void MainWindow::receive_Decimal_point_Box_valueChanged(int arg1)
@@ -258,12 +248,32 @@ void MainWindow::receive_Switch_EnergyLimit_stateChanged(int arg1)
     }
 }
 
-void MainWindow::on_Calc_settings_Radius1_Box_textChanged(const QString &arg1)
+void MainWindow::on_Switch_ChargeRadius_stateChanged(int arg1)
 {
-    Calc_Settings_textChanged();
+    if(arg1 > 0)
+    {
+        Charge_Enabled = true;
+        ui->Calc_settings_Radius1_Box->setEnabled(true);
+        ui->Calc_settings_Radius1_Box->setStyleSheet("QLineEdit { border: 1px solid; border-color: rgb(0, 0, 0); border-radius: 2px; background-color: white; color: black;}");
+        ui->Calc_settings_Radius2_Box->setEnabled(true);
+        ui->Calc_settings_Radius2_Box->setStyleSheet("QLineEdit { border: 1px solid; border-color: rgb(0, 0, 0); border-radius: 2px; background-color: white; color: black;}");
+    }
+    else
+    {
+        Charge_Enabled = false;
+        ui->Calc_settings_Radius1_Box->setEnabled(false);
+        ui->Calc_settings_Radius1_Box->setStyleSheet("QLineEdit { border: 1px solid; border-color: rgb(0, 0, 0); border-radius: 2px; background-color: gray; color: black;}");
+        ui->Calc_settings_Radius2_Box->setEnabled(false);
+        ui->Calc_settings_Radius2_Box->setStyleSheet("QLineEdit { border: 1px solid; border-color: rgb(0, 0, 0); border-radius: 2px; background-color: gray; color: black;}");
+    }
 }
 
-void MainWindow::on_Calc_settings_Radius2_Box_textChanged(const QString &arg1)
+void MainWindow::on_Calc_settings_Radius1_Box_textEdited(const QString &arg1)
 {
-    Calc_Settings_textChanged();
+    Calc_Settings_textEdited();
+}
+
+void MainWindow::on_Calc_settings_Radius2_Box_textEdited(const QString &arg1)
+{
+    Calc_Settings_textEdited();
 }

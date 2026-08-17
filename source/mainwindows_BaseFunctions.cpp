@@ -97,13 +97,18 @@ void MainWindow::on_actionSettings_triggered()
     }
 }
 
+void MainWindow::on_actionAbout_program_triggered()
+{
+    //!!!
+}
+
 void MainWindow::on_Calculate_Button_clicked()
 {
     ui->Calculate_Button->setEnabled(false);
     bool SuccessCalc = false;
     SplineTwoBody_Eigen Task;
     ui->progressBar->setValue(0);
-    ui->progressBar->setFormat("Init memory");
+    auto start = std::chrono::high_resolution_clock::now();
     QVector<double> Mesh;
     int N = (Calc_settings_R_max_d-Calc_settings_R_min_d)/Calc_settings_h_step_d + 1;
     for(int i = 0; i < N; i++)
@@ -127,8 +132,23 @@ void MainWindow::on_Calculate_Button_clicked()
     }
     if(SuccessCalc)
     {
+        QString parameters = "Rmax=" + QString::number(Calc_settings_R_max_d) + "|" + "Rmin=" + QString::number(Calc_settings_R_min_d) + "|" + "h=" + QString::number(Calc_settings_h_step_d) + "|" + "hspline="
+                             + QString::number(Calc_settings_h_spline_step_d) +  "|" + "mass1=" + QString::number(Calc_settings_Mass1_d) + "|" + "mass2=" + QString::number(Calc_settings_Mass2_d) + "|" + "l=" + QString::number(Calc_settings_l_d) + "|"
+                             + "Rch1=" + QString::number(Calc_settings_Radius1_d) + "|" + "Rch2=" + QString::number(Calc_settings_Radius2_d) + "|" + "Potential=" + QString::fromStdString(Potential_Expression) + "|";
+            switch(ui->UnitsType_Select->currentIndex())
+            {
+            case(0):
+                parameters = parameters + "Units=" + "Gev/fm";
+                break;
+            case(1):
+                parameters = parameters + "Units=" + "Atmoic units";
+                break;
+            default:
+                parameters = parameters + "Units=" + "Atmoic units";
+                break;
+            }
         //Task.Show_WaveFunctions();
-        Result_Window = new Dialog_result(Task, Decimal_points_numbers, Sci_times_notation, ui->UnitsType_Select->currentIndex(), this);
+        Result_Window = new Dialog_result(Task, Decimal_points_numbers, Sci_times_notation, ui->UnitsType_Select->currentIndex(), parameters, this);
         Result_Window->setAttribute(Qt::WA_DeleteOnClose);
         Result_Window->show();
     }
@@ -147,6 +167,10 @@ void MainWindow::on_Calculate_Button_clicked()
         }
     }
     ui->Calculate_Button->setEnabled(true);
+    auto end = std::chrono::high_resolution_clock::now();
+    auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    ui->TimeSpend_Label->setText("Time spend \n"+QString::number(elapsed.count())+ " ms");
+
 }
 
 void MainWindow::DrawCrossAndCoord(QPoint Cursor)
@@ -191,12 +215,15 @@ void MainWindow::DrawMesh()
     {
         CountMeshPoints = (Calc_settings_R_max_d - Calc_settings_R_min_d)/Calc_settings_h_step_d + 1;
         DataMeshPoints_x.clear();
-        DataMeshPoints_y.clear();
+    DataMeshPoints_y.clear();
         for(int i = 0; i < CountMeshPoints; i++)
         {
             Potential_Equation_Parse_R = Calc_settings_R_min_d + i * Calc_settings_h_step_d;
-            DataMeshPoints_x.append(Potential_Equation_Parse_R);
-            DataMeshPoints_y.append(Potential_Equation_Expression.value());
+            if(!(std::isinf(Potential_Equation_Expression.value()) || std::isnan(Potential_Equation_Expression.value())))
+            {
+                DataMeshPoints_x.append(Potential_Equation_Parse_R);
+                DataMeshPoints_y.append(Potential_Equation_Expression.value());
+            }
         }
     }
     ui->PlotPotential->graph(1)->data()->clear();

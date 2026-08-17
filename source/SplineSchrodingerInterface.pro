@@ -9,11 +9,13 @@ CONFIG += c++2a
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    dialog_charge.cpp \
     dialog_result.cpp \
     dialog_savefile.cpp \
     dialog_settings.cpp \
     main.cpp \
     mainwindow.cpp \
+    mainwindow_SaveLoad.cpp \
     mainwindow_TextBoxes.cpp \
     mainwindows_BaseFunctions.cpp \
     mainwindows_Potential.cpp \
@@ -23,6 +25,7 @@ SOURCES += \
 HEADERS += \
     complex_type.hpp \
     complex_type.hpp \
+    dialog_charge.h \
     dialog_result.h \
     dialog_savefile.h \
     dialog_settings.h \
@@ -35,6 +38,7 @@ HEADERS += \
     splinetwobody_eigen.h
 
 FORMS += \
+    dialog_charge.ui \
     dialog_result.ui \
     dialog_savefile.ui \
     dialog_settings.ui \

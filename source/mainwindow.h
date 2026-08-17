@@ -13,6 +13,7 @@
 #include <cstdio>
 #include "qcustomplot.h"
 #include <iostream>
+#include <chrono>
 #include <format>
 #include "exprtk_complex_adaptor.hpp"
 #include "dialog_settings.h"
@@ -36,40 +37,40 @@ public:
     ~MainWindow();
 
 public slots:
-    void receive_Potential_R_min_Box_textChanged(QString arg1);
+    void receive_Visual_R_min_Box_textEdited(QString arg1);
 
-    void receive_Potential_R_max_Box_textChanged(QString arg1);
+    void receive_Visual_R_max_Box_textEdited(QString arg1);
 
-    void receive_Potential_Step_Box_textChanged(QString arg1);
+    void receive_Visual_Step_Box_textEdited(QString arg1);
 
-    void receive_EnergyLimit_Box_textChanged(QString arg1);
+    void receive_EnergyLimit_Box_textEdited(QString arg1);
 
     void receive_Decimal_point_Box_valueChanged(int arg1);
 
     void receive_Switch_EnergyLimit_stateChanged(int arg1);
 
 private slots:
-    void on_Potential_Equation_Box_textChanged(const QString &arg1);
+    void on_Potential_Equation_Box_textEdited(const QString &arg1);
 
     void on_actionSettings_triggered();
 
-    void on_Calc_settings_R_min_Box_textChanged(const QString &arg1);
+    void on_Calc_settings_R_min_Box_textEdited(const QString &arg1);
 
-    void on_Calc_settings_R_max_Box_textChanged(const QString &arg1);
+    void on_Calc_settings_R_max_Box_textEdited(const QString &arg1);
 
-    void on_Calc_settings_Step_Box_textChanged(const QString &arg1);
+    void on_Calc_settings_Step_Box_textEdited(const QString &arg1);
 
-    void on_Calc_settings_SplineStep_Box_textChanged(const QString &arg1);
+    void on_Calc_settings_SplineStep_Box_textEdited(const QString &arg1);
 
-    void on_Calc_settings_Mass1_Box_textChanged(const QString &arg1);
+    void on_Calc_settings_Mass1_Box_textEdited(const QString &arg1);
 
-    void on_Calc_settings_Mass2_Box_textChanged(const QString &arg1);
+    void on_Calc_settings_Mass2_Box_textEdited(const QString &arg1);
 
-    void on_Calc_settings_l_Box_textChanged(const QString &arg1);
+    void on_Calc_settings_l_Box_textEdited(const QString &arg1);
 
-    void on_Calc_settings_Radius1_Box_textChanged(const QString &arg1);
+    void on_Calc_settings_Radius1_Box_textEdited(const QString &arg1);
 
-    void on_Calc_settings_Radius2_Box_textChanged(const QString &arg1);
+    void on_Calc_settings_Radius2_Box_textEdited(const QString &arg1);
 
     void on_Calculate_Button_clicked();
 
@@ -77,11 +78,20 @@ private slots:
 
     void MouseWheelPlotPotential(QWheelEvent *event);
 
+    void on_actionAbout_program_triggered();
+
+    void on_Switch_ChargeRadius_stateChanged(int arg1);
+
+    void on_actionSave_triggered();
+
+    void on_actionLoad_triggered();
+
 private:
     Ui::MainWindow *ui;
     Dialog_settings *Settings_Window;
     Dialog_result *Result_Window;
     QCPItemText *CoordText;
+    QString Program_settings_path;
 
 
     //Calc settings/////////////////////////////////
@@ -107,17 +117,18 @@ private:
     //Calc_settings_radius2_d[8];
 
     //Potential settings////////////////////////////
-    double Potential_R_max_d;
-    double Potential_R_min_d;
-    double Potential_Step_d;
+    double Visual_R_max_d;
+    double Visual_R_min_d;
+    double Visual_Step_d;
     double EnergyLimit_d;
     bool EnergyLimit_Enabled;
+    bool Charge_Enabled;
 
     QVector<double> DataPotentialPoints_x, DataPotentialPoints_y;
-    QVector<bool> Potential_settings_success;
-    //Potential_Rmax_d_success = [0]
-    //Potential_Rmin_d_success = [1]
-    //Potential_Step_d_success = [2]
+    QVector<bool> Visual_settings_success;
+    //Visual_Rmax_d_success = [0]
+    //Visual_Rmin_d_success = [1]
+    //Visual_Step_d_success = [2]
     //EnergyLimit_d_success = [3]
 
     double Potential_Equation_Parse_R;
@@ -150,8 +161,9 @@ private:
     void DrawCrossAndCoord(QPoint Cursor);
     void GetFormattedNumber(double Value, std::string &FormattedNumber);
     void DrawMesh();
-    void Calc_Settings_textChanged();
-    void Potential_Settings_textChanged();
-
+    void Calc_Settings_textEdited();
+    void Visual_Settings_textEdited();
+    void LoadSettings(QString path);
+    void SaveSettings(QString path);
 };
 #endif // MAINWINDOW_H
