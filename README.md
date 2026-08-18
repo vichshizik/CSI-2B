@@ -1,6 +1,6 @@
 # Description
 CSI-2B is a program for solving radial Schrodinger equation using cubic spline interpolation method. Solver for two-body radial Schrodinger equation using spline-interpolation method. The CSI method is implemented as standalone program written on C++ language using [Qt 6 framework](https://www.qt.io/). CSI-2B uses [ExprTk library](https://www.partow.net/programming/exprtk/) for parsing mathematical functions, [QCustomPlot library](https://www.qcustomplot.com/) for graph display and [Eigen library](https://libeigen.gitlab.io/) for matrix computations.
-You can check out the documentation [here](./Program_desciption.md).
+You can check out the documentation [here](./Program_description.md).
 
 # Installing
 
