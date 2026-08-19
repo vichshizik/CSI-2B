@@ -72,6 +72,9 @@ void MainWindow::LoadSettings(QString path)
     settings_text = settings.value("EnergyLimit_Enabled", "0").toString();
     EnergyLimit_Enabled = settings_text.toInt();
     Settings_Window->set_Potential_EnergyLimit_Box(EnergyLimit_Enabled);
+
+    Potential_Equation_Parse();
+    DrawMesh();
 }
 
 void MainWindow::SaveSettings(QString path)

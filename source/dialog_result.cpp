@@ -176,7 +176,8 @@ void Dialog_result::on_RadialWaveButton_clicked()
 void Dialog_result::on_Energy_Select_currentIndexChanged(int index)
 {
     Replot_Graph();
-    ui->Rms_Box->setText(QString("%1").arg(GetFormattedNumber(Radius[index])));
+    ui->Rms_Box->setText(QString("%1").arg(GetFormattedNumber(Radius_Wave[index])));
+    ui->Charge_Box->setText(QString("%1").arg(GetFormattedNumber(Radius[index])));
 }
 
 void Dialog_result::on_FlipFunctionsButton_clicked()

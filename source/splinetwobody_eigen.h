@@ -313,7 +313,6 @@ private:
     void MethodSplainNatural(int p);
     void ProgonkaRIGHT_SPLAINMOD(unsigned int n, double* a, double* b, double* x);
     double MethodSplainNatural_Radius(double* X, double* Y, int size);
-    void RadiusDistribution(double r1);
 };
 
 #endif // SPLINETWOBODY_EIGEN_H

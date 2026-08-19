@@ -275,19 +275,3 @@ void SplineTwoBody_Eigen::ProgonkaRIGHT_SPLAINMOD(unsigned int n, double* a, dou
     delete[] alfa;
     delete[] beta;
 }
-
-void SplineTwoBody_Eigen::RadiusDistribution(double r1)
-{
-
-}
-
-// for (int i = 0; i < matrix_size; i++)
-// {
-//     QString stroka = "";
-//     for (int j = 0; j < matrix_size; j++)
-//     {
-//         stroka = stroka + " " + QString::number(Result(i, j));
-//     }
-//     qDebug() << stroka;
-// }
-// qDebug() << " ";

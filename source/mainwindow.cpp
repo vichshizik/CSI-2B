@@ -4,7 +4,6 @@
 #include "dialog_settings.h"
 #include "dialog_result.h"
 #include "dialog_savefile.h"
-#include "dialog_charge.h"
 #include <QSettings>
 
 MainWindow::MainWindow(QWidget *parent)
