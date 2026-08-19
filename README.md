@@ -6,4 +6,4 @@ You can check out the documentation [here](./Program_description.md).
 
 There are two ways to get the program.
 1. Download pre-compiled version for desired platform on [release page](https://github.com/vichshizik/CSI-2B/releases).
-2. Compile the program using the provided source code in the repository. The program compiles on C++ 2020 standard.
+2. Compile the program using the provided source code in the repository, download Eigen library and put it in the project folder. The program compiles on C++ 2020 standard.
