@@ -13,7 +13,4 @@ The main window has several parts of the interface.
 ![Interface of the main window](https://github.com/vichshizik/CSI-2B/blob/main/Interface_Result.png)
 ## Save file window
 
-# Saving results
-
-
 # Calculation example
