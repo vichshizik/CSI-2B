@@ -3,8 +3,14 @@
 ![Interface of the main window](https://github.com/vichshizik/CSI-2B/blob/main/Interface_MainWindow.png)
 The main window has several parts of the interface.
 ### 1. The potential graph.
-You can scale up/down and move the graph. Coordinates are shown at the tip of the mouse cursor.
-2. Fields for enetering parameters of the problem.
+You can navigate through the graph:
+- hold the left mouse button to move it;
+- scroll the mouse wheel to scale up and down the graph;
+- scroll the mouse wheel at axes to scale it up and down.
+Besides it, coordinates are shown at the tip of the mouse cursor.
+
+### 2. Fields for enetering parameters of the problem.
+
 3. The field for entering the potential equation.
 4. Save/load buttons for parameters.
 5. Settings button.
