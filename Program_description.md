@@ -3,7 +3,7 @@
 ![Interface of the main window](https://github.com/vichshizik/CSI-2B/blob/main/Interface_MainWindow.png)
 The main window has several parts of the interface.
 ### 1. The potential graph.
-The potential graph is shown as the blue line with red cicles, which represent computational grid.
+The potential graph is shown as the blue line with red cicles, which represent points of the computational grid.
 
 You can navigate through the graph:
 - hold the left mouse button to move it;
