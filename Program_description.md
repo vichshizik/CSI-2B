@@ -15,10 +15,10 @@ Besides it, coordinates are shown at the tip of the mouse cursor.
 
 ### 2. Fields for enetering parameters of the problem.
 
-3. The field for entering the potential equation.
-4. Save/load buttons for parameters.
-5. Settings button.
-6. Calculate button.
+### 3. The field for entering the potential equation.
+### 4. Save/load buttons for parameters.
+### 5. Settings button.
+### 6. Calculate button.
 ## Settings window
 ## Results window
 ![Interface of the main window](https://github.com/vichshizik/CSI-2B/blob/main/Interface_Result.png)
